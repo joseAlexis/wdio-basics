@@ -11,7 +11,7 @@ class DynamicControlsPage extends Page {
     }
 
     async clickButton() {
-        await this.button().click();
+        await this.button.click();
     }
 
     /**

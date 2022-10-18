@@ -31,6 +31,10 @@ class LoginPage extends Page {
         await this.btnSubmit.click();
     }
 
+    async setUsername(username) {
+        await this.inputUsername.setValue(username);
+    }
+
     /**
      * overwrite specific options to adapt it to page object
      */
