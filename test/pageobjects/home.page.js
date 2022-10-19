@@ -1,12 +1,15 @@
 const Page = require('./page');
 
 class HomePage extends Page {
-    get list() {
-        return $('ul');
-    }
+    get list() { return $('ul') }
 
-    get links() {
-        return this.list.$$('li');
+    get links() { return this.list.$$('li') }
+
+    get footer() { return $('#page-footer') }
+
+    async scrollToPageFooter() {
+        await this.footer.scrollIntoView();
+        // await this.footer.waitForBeDisplayed();
     }
 
     async getPageLinks() {
@@ -17,6 +20,13 @@ class HomePage extends Page {
 
     getElementByIndex(index) {
         return this.list.$(`li:nth-child(${index})`);
+    }
+
+    /**
+     * overwrite specific options to adapt it to page object
+     */
+    open() {
+        return super.open('#');
     }
 }
 

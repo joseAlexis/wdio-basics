@@ -1,6 +1,12 @@
+const HomePage = require("../pageobjects/home.page");
 const CheckboxPage = require("../pageobjects/checkboxes.page");
 const DynamicControlsPage = require("../pageobjects/dynamicControls.page");
+const HoverPage = require("../pageobjects/hover.page");
 const LoginPage = require("../pageobjects/login.page");
+const KeyPresses = require("../pageobjects/keypresess.page");
+const WindowsPage = require("../pageobjects/windows.page");
+const iFramePage = require("../pageobjects/iframe.page");
+const DragAndDrop = require('../pageobjects/dragdrop.page')
 
 describe('Testing dynamic controls', () => {
     it('Should enable the input', async () => {
@@ -35,8 +41,50 @@ describe('Testing dynamic controls', () => {
         await LoginPage.open();
         await LoginPage.setUsername(username);
         await expect(LoginPage.inputUsername).toHaveValue(username)
-        // const text = await LoginPage.inputUsername.getValue();
-        // console.log(text)
-        // await expect(LoginPage.inputUsername.getValue()).toEqual(username);
     });
+
+    it('Should match the text when hover over an image', async() => {
+        await HoverPage.open();
+        await HoverPage.hoverOnFigure(3);
+        await expect(HoverPage.figuresCaption(3)).toBeDisplayed();
+        await expect(HoverPage.figuresCaption(3)).toHaveTextContaining('name: user1');
+    });
+
+    it('Should send keys', async() => {
+        const key = "Backspace"
+        await KeyPresses.open();
+        await KeyPresses.sendKeys(key);
+        await expect(KeyPresses.result).toHaveText('You entered: BACK_SPACE');
+    });
+
+    it('Should scroll to an element', async () => {
+        await HomePage.open();
+        await HomePage.scrollToPageFooter();
+        await expect(HomePage.footer).toBeDisplayedInViewport();
+    });
+
+    it('Should open a new window', async () => {
+        const newUrl = `${browser.options.baseUrl}/windows/new`;
+        await WindowsPage.open();
+        await WindowsPage.openNewWindow();
+        await browser.switchWindow(newUrl);
+        await expect(WindowsPage.newWindowHeader).toBeDisplayedInViewport();
+    });
+
+    it.skip('Should add new text to iframe', async () => {
+        const text = "New text in the iframe body";
+
+        await iFramePage.open();
+        await iFramePage.iframe.waitForDisplayed();
+        await browser.switchToFrame(iFramePage.iframe);
+        await iFramePage.typeOnBody(text);
+        await expect(iFramePage.iframeBody).toHaveValue(text);
+    });
+
+    it.skip('Should drag and drop', async () => {
+        await DragAndDrop.open();
+        await DragAndDrop.dragColumnAToColumnB();
+        await expect(DragAndDrop.columnA).toHaveText('B');
+        await expect(DragAndDrop.columnA).toHaveText('A');
+    })
 });
