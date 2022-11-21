@@ -10,6 +10,15 @@ class DynamicControlsPage extends Page {
         return $('#input-example > button');
     }
 
+    get addRemoveButton() {
+        return $('#checkbox-example button')
+    }
+
+    async addOrRemove() {
+        await this.addRemoveButton.waitForDisplayed();
+        await this.addRemoveButton.click();
+    }
+
     async clickButton() {
         await this.button.click();
     }
