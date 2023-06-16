@@ -40,3 +40,27 @@ _Note:_ You can have both assertion libraries along in the project adding the fo
 require('expect-webdriverio');
 global.wdioExpect = global.expect;
 ```
+
+## Creating suites 
+Adding the following into the ```wdio.conf.js```:
+```Javascript
+specs: [ ... ],
+suites: {
+    "suite-name": [
+        './test/specs/[path_to_suite_file].js'
+    ]
+}
+```
+Where:
+- The ```suite-name``` is the bane if the suite. 
+
+And in the ```package.json```, add a command like:
+```JSON
+"scripts": {
+    "test": "...",
+    "test_suite": "wdio --suite suite-name"
+}
+```
+Where:
+- The ```test_suite``` is the name of the command we are going to refer and execute with ```npm run test_suite```.
+- The ```suite-name``` is the bane if the suite.
