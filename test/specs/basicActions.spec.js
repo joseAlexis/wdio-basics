@@ -6,7 +6,9 @@ const LoginPage = require("../pageobjects/login.page");
 const KeyPresses = require("../pageobjects/keypresess.page");
 const WindowsPage = require("../pageobjects/windows.page");
 const iFramePage = require("../pageobjects/iframe.page");
-const DragAndDrop = require('../pageobjects/dragdrop.page')
+const DragAndDrop = require('../pageobjects/dragdrop.page');
+
+const loginData = require('../data/loginData');
 
 describe('Testing dynamic controls', () => {
     it('Should enable the input', async () => {
@@ -36,21 +38,20 @@ describe('Testing dynamic controls', () => {
         await expect(CheckboxPage.checkbox(3)).not.toBeSelected({ reverse: true });
     });
 
-    it('Should validate the data sent to the login textbox', async() => {
-        const username = 'holis';
+    it('Should validate the data sent to the login textbox', async () => {
         await LoginPage.open();
-        await LoginPage.setUsername(username);
-        await expect(LoginPage.inputUsername).toHaveValue(username)
+        await LoginPage.setUsername(loginData.username);
+        await expect(LoginPage.inputUsername).toHaveValue(loginData.username)
     });
 
-    it('Should match the text when hover over an image', async() => {
+    it('Should match the text when hover over an image', async () => {
         await HoverPage.open();
         await HoverPage.hoverOnFigure(3);
         await expect(HoverPage.figuresCaption(3)).toBeDisplayed();
         await expect(HoverPage.figuresCaption(3)).toHaveTextContaining('name: user1');
     });
 
-    it('Should send keys', async() => {
+    it('Should send keys', async () => {
         const key = "Backspace"
         await KeyPresses.open();
         await KeyPresses.sendKeys(key);
